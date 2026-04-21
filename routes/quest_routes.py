@@ -1,7 +1,6 @@
 
 
 
-
 from flask import Blueprint, request, jsonify
 from controllers.quest_controller import (
     create_quest,
@@ -10,25 +9,21 @@ from controllers.quest_controller import (
     update_quest,
     delete_quest
 )
-from schemas.quest_schema import QuestSchema
+from models.quest import QuestSchema
 
 quest_bp = Blueprint("quest_bp", __name__)
-quest_schema = QuestSchema()
-quest_list_schema = QuestSchema(many=True)
 
 
 @quest_bp.route('/quest', methods=['POST'])
 def add_quest():
     quest = create_quest(request.get_json())
-    if not quest:
-        return {"message": "Unable to create quest"}, 400
-    return jsonify(quest_schema.dump(quest)), 201
+    return jsonify(QuestSchema().dump(quest)), 201
 
 
 @quest_bp.route('/quests', methods=['GET'])
 def list_quests():
     quests = get_all_quests()
-    return jsonify(quest_list_schema.dump(quests)), 200
+    return jsonify(quests_schema.dump(quests)), 200
 
 
 @quest_bp.route('/quest/<uuid:quest_id>', methods=['GET'])
@@ -43,15 +38,16 @@ def get_single_quest(quest_id):
 def update_quest_route(quest_id):
     updated = update_quest(quest_id, request.get_json())
     if not updated:
-        return {"message": "Unable to update quest"}, 400
+        return {"message": "Quest not found"}, 404
     return jsonify(quest_schema.dump(updated)), 200
 
 
-@quest_bp.route('/quest/delete/<uuid:quest_id>', methods=['DELETE'])
+@quest_bp.route('/quest/<uuid:quest_id>', methods=['DELETE'])
 def delete_quest_route(quest_id):
     deleted = delete_quest(quest_id)
 
     if deleted is None:
         return {"message": "Quest not found"}, 404
 
-    return jsonify(quest_schema.dump(deleted)), 200
+    return {"message": "Quest deleted successfully"}, 200
+

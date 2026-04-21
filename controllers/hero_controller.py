@@ -1,66 +1,64 @@
 
 
-from models.reflected import Heroes, Abilities, HeroQuest, Quests
-from schemas.hero_schema import HeroSchema
-from schemas.quest_schema import QuestSchema
-from schemas.ability_schema import AbilitySchema
-from sqlalchemy.orm import Session
-from db import db
 
-hero_schema = HeroSchema()
-heroes_schema = HeroSchema(many=True)
-quest_schema = QuestSchema(many=True)
-ability_schema = AbilitySchema(many=True)
+from db import db
+from models.hero import Heroes
+from models.quest import Quests
+from models.ability import Abilities
+from models.hero_quest import HeroQuest
+
 
 def get_all_heroes():
-    with Session(db.engine) as session:
-        heroes = session.query(Heroes).all()
-        return heroes
+    return db.session.query(Heroes).all()
+
 
 def get_alive_heroes():
-    with Session(db.engine) as session:
-        return session.query(Heroes).filter(Heroes.is_alive == True).all()
+    return db.session.query(Heroes).filter_by(is_alive=True).all()
+
 
 def get_hero_by_id(hero_id):
-    with Session(db.engine) as session:
-        hero = session.get(Heroes, hero_id)
-        if not hero:
-            return None
-        return hero_schema.dump(hero)
+    return db.session.query(Heroes).filter_by(hero_id=hero_id).first()
+
 
 def get_hero_quests(hero_id):
-    with Session(db.engine) as session:
-        quests = (
-            session.query(Quests)
-            .join(HeroQuest, HeroQuest.quest_id == Quests.quest_id)
-            .filter(HeroQuest.hero_id == hero_id)
-            .all()
-        )
-        return quest_schema.dump(quests)
+    return (
+        db.session.query(Quests)
+        .join(HeroQuest, HeroQuest.quest_id == Quests.quest_id)
+        .filter(HeroQuest.hero_id == hero_id)
+        .all()
+    )
+
 
 def create_hero(data):
-    with Session(db.engine) as session:
-        hero = Heroes(**data)
-        session.add(hero)
-        session.commit()
-        return hero_schema.dump(hero)
+    hero = Heroes(
+        race_id=data.get("race_id"),
+        hero_name=data.get("hero_name"),
+        age=data.get("age"),
+        health_points=data.get("health_points"),
+        is_alive=data.get("is_alive", True)
+    )
+    db.session.add(hero)
+    db.session.commit()
+    return hero
+
 
 def update_hero(hero_id, data):
-    with Session(db.engine) as session:
-        hero = session.get(Heroes, hero_id)
-        if not hero:
-            return None
-        for key, value in data.items():
-            setattr(hero, key, value)
-        session.commit()
-        return hero_schema.dump(hero)
+    hero = db.session.query(Heroes).filter_by(hero_id=hero_id).first()
+    if not hero:
+        return None
+
+    for key, value in data.items():
+        setattr(hero, key, value)
+
+    db.session.commit()
+    return hero
+
 
 def delete_hero(hero_id):
-    with Session(db.engine) as session:
-        hero = session.get(Heroes, hero_id)
-        if not hero:
-            return None
-        session.delete(hero)
-        session.commit()
-        return True
-    
+    hero = db.session.query(Heroes).filter_by(hero_id=hero_id).first()
+    if not hero:
+        return None
+
+    db.session.delete(hero)
+    db.session.commit()
+    return True

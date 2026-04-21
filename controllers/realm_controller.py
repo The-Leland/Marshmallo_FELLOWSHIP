@@ -1,52 +1,50 @@
 
 
 
-from models.reflected import Realms, Locations
-from schemas.realm_schema import RealmSchema
-from sqlalchemy.orm import Session
 from db import db
+from models.realm import Realms
+from models.location import Locations
 
-realm_schema = RealmSchema()
-realms_schema = RealmSchema(many=True)
 
 def get_all_realms():
-    with Session(db.engine) as session:
-        realms = session.query(Realms).all()
-        return realms_schema.dump(realms)
+    return db.session.query(Realms).all()
+
 
 def get_realm_by_id(realm_id):
-    with Session(db.engine) as session:
-        realm = session.get(Realms, realm_id)
-        if not realm:
-            return None
-        return realm_schema.dump(realm)
+    return db.session.query(Realms).filter_by(realm_id=realm_id).first()
+
 
 def create_realm(data):
-    with Session(db.engine) as session:
-        realm = Realms(**data)
-        session.add(realm)
-        session.commit()
-        return realm_schema.dump(realm)
+    realm = Realms(
+        realm_name=data.get("realm_name"),
+        ruler=data.get("ruler")
+    )
+    db.session.add(realm)
+    db.session.commit()
+    return realm
+
 
 def update_realm(realm_id, data):
-    with Session(db.engine) as session:
-        realm = session.get(Realms, realm_id)
-        if not realm:
-            return None
-        for key, value in data.items():
-            setattr(realm, key, value)
-        session.commit()
-        return realm_schema.dump(realm)
+    realm = db.session.query(Realms).filter_by(realm_id=realm_id).first()
+    if not realm:
+        return None
+
+    for key, value in data.items():
+        setattr(realm, key, value)
+
+    db.session.commit()
+    return realm
+
 
 def delete_realm(realm_id):
-    with Session(db.engine) as session:
-        locations_exist = session.query(Locations).filter(Locations.realm_id == realm_id).first()
-        if locations_exist:
-            return "blocked"
-        realm = session.get(Realms, realm_id)
-        if not realm:
-            return None
-        session.delete(realm)
-        session.commit()
-        return True
-    
+    location_exists = db.session.query(Locations).filter_by(realm_id=realm_id).first()
+    if location_exists:
+        return "blocked"
+
+    realm = db.session.query(Realms).filter_by(realm_id=realm_id).first()
+    if not realm:
+        return None
+
+    db.session.delete(realm)
+    db.session.commit()
+    return True

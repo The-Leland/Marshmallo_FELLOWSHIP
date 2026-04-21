@@ -9,25 +9,21 @@ from controllers.location_controller import (
     update_location,
     delete_location
 )
-from schemas.location_schema import LocationSchema
+from models.location import LocationSchema
 
 location_bp = Blueprint("location_bp", __name__)
-location_schema = LocationSchema()
-location_list_schema = LocationSchema(many=True)
 
 
 @location_bp.route('/location', methods=['POST'])
 def add_location():
     location = create_location(request.get_json())
-    if not location:
-        return {"message": "Unable to create location"}, 400
-    return jsonify(location_schema.dump(location)), 201
+    return jsonify(LocationSchema().dump(location)), 201
 
 
 @location_bp.route('/locations', methods=['GET'])
 def list_locations():
     locations = get_all_locations()
-    return jsonify(location_list_schema.dump(locations)), 200
+    return jsonify(LocationSchema(many=True).dump(locations)), 200
 
 
 @location_bp.route('/location/<uuid:location_id>', methods=['GET'])
@@ -42,15 +38,18 @@ def get_single_location(location_id):
 def update_location_route(location_id):
     updated = update_location(location_id, request.get_json())
     if not updated:
-        return {"message": "Unable to update location"}, 400
+        return {"message": "Location not found"}, 404
     return jsonify(location_schema.dump(updated)), 200
 
 
-@location_bp.route('/location/delete/<uuid:location_id>', methods=['DELETE'])
+@location_bp.route('/location/<uuid:location_id>', methods=['DELETE'])
 def delete_location_route(location_id):
     deleted = delete_location(location_id)
+
+    if deleted == "blocked":
+        return {"message": "Cannot delete location: quests still belong to this location"}, 400
 
     if deleted is None:
         return {"message": "Location not found"}, 404
 
-    return jsonify(location_schema.dump(deleted)), 200
+    return {"message": "Location deleted successfully"}, 200

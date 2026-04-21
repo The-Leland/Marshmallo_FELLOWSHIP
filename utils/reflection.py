@@ -1,17 +1,12 @@
 
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import sessionmaker
-from db import get_engine
 
-engine = get_engine()
-Base = automap_base()
-Base.prepare(engine, reflect=True)
 
-Session = sessionmaker(bind=engine)
+from flask import jsonify
 
-def reflect_db():
-    return Base, engine
-
-def get_session():
-    return Session()
-
+def populate_object(obj, data_dictionary):
+    for field in data_dictionary.keys():
+        try:
+            getattr(obj, field)
+            setattr(obj, field, data_dictionary[field])
+        except AttributeError:
+            return jsonify({'message': f'attribute {field} not in object'})

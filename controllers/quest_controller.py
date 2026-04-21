@@ -1,64 +1,65 @@
 
 
 
-from models.reflected import Heroes, Abilities, HeroQuest, Quests
-# from models.reflection_models import Quests, HeroQuest, Heroes
-from schemas.quest_schema import QuestSchema
-from sqlalchemy.orm import Session
 from db import db
+from models.quest import Quests
+from models.hero_quest import HeroQuest
+from models.hero import Heroes
 
-quest_schema = QuestSchema()
-quests_schema = QuestSchema(many=True)
 
 def get_all_quests():
-    with Session(db.engine) as session:
-        quests = session.query(Quests).all()
-        return quests_schema.dump(quests)
+    return db.session.query(Quests).all()
+
 
 def get_quests_by_difficulty(level):
-    with Session(db.engine) as session:
-        quests = session.query(Quests).filter(Quests.difficulty == level).all()
-        return quests_schema.dump(quests)
+    return db.session.query(Quests).filter_by(difficulty=level).all()
+
 
 def get_quest_by_id(quest_id):
-    with Session(db.engine) as session:
-        quest = session.get(Quests, quest_id)
-        if not quest:
-            return None
-        return quest_schema.dump(quest)
+    return db.session.query(Quests).filter_by(quest_id=quest_id).first()
+
 
 def create_quest(data):
-    with Session(db.engine) as session:
-        quest = Quests(**data)
-        session.add(quest)
-        session.commit()
-        return quest_schema.dump(quest)
+    quest = Quests(
+        location_id=data.get("location_id"),
+        quest_name=data.get("quest_name"),
+        difficulty=data.get("difficulty"),
+        reward_gold=data.get("reward_gold"),
+        is_completed=data.get("is_completed", False)
+    )
+    db.session.add(quest)
+    db.session.commit()
+    return quest
+
 
 def update_quest(quest_id, data):
-    with Session(db.engine) as session:
-        quest = session.get(Quests, quest_id)
-        if not quest:
-            return None
-        for key, value in data.items():
-            setattr(quest, key, value)
-        session.commit()
-        return quest_schema.dump(quest)
+    quest = db.session.query(Quests).filter_by(quest_id=quest_id).first()
+    if not quest:
+        return None
+
+    for key, value in data.items():
+        setattr(quest, key, value)
+
+    db.session.commit()
+    return quest
+
 
 def complete_quest(quest_id):
-    with Session(db.engine) as session:
-        quest = session.get(Quests, quest_id)
-        if not quest:
-            return None
-        quest.is_completed = True
-        session.commit()
-        return quest_schema.dump(quest)
+    quest = db.session.query(Quests).filter_by(quest_id=quest_id).first()
+    if not quest:
+        return None
+
+    quest.is_completed = True
+    db.session.commit()
+    return quest
+
 
 def delete_quest(quest_id):
-    with Session(db.engine) as session:
-        quest = session.get(Quests, quest_id)
-        if not quest:
-            return None
-        session.delete(quest)
-        session.commit()
-        return True
-    
+    quest = db.session.query(Quests).filter_by(quest_id=quest_id).first()
+    if not quest:
+        return None
+
+    db.session.delete(quest)
+    db.session.commit()
+    return True
+
