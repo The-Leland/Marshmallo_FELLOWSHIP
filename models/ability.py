@@ -2,27 +2,40 @@
 
 
 import uuid
-from db import db
-from db import ma
+from sqlalchemy.dialects.postgresql import UUID
+from db import db, ma
 
 
 class Abilities(db.Model):
     __tablename__ = "abilities"
 
-    ability_id = db.Column(db.String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    hero_id = db.Column(db.String, db.ForeignKey("heroes.hero_id"), nullable=False)
-    ability_name = db.Column(db.String, unique=True, nullable=False)
-    power_level = db.Column(db.Integer)
+    ability_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    hero_id = db.Column(UUID(as_uuid=True), db.ForeignKey("heroes.hero_id"), nullable=False)
+
+    ability_name = db.Column(db.String(), unique=True, nullable=False)
+    power_level = db.Column(db.Integer())
+
+    hero = db.relationship("Heroes", back_populates="abilities")
+
+    def __init__(self, ability_name, hero_id, power_level=None):
+        self.ability_name = ability_name
+        self.hero_id = hero_id
+        self.power_level = power_level
 
 
-class AbilitySchema(ma.Schema):
+class AbilitySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        fields = (
-            "ability_id",
-            "hero_id",
-            "ability_name",
-            "power_level"
-        )
+        model = Abilities
+        load_instance = True
+        include_fk = True
+        include_relationships = False
+
+
+
+ability_schema = AbilitySchema()
+abilities_schema = AbilitySchema(many=True)
+
+
 
 
 

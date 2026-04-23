@@ -1,21 +1,17 @@
 
 from flask import Flask
-from db import init_db
+from db import db, init_db
 from utils.blueprints import register_blueprints
-
-
-import models.hero
-import models.race
-import models.ability
-import models.quest
-import models.hero_quest
-import models.location
-import models.realm
 
 app = Flask(__name__)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://L27Fe:Test123!@localhost:5432/Marshmallo_FELLOWSHIP"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-init_db(app)
+init_db(app, db)
+
+from models import hero, race, ability, quest, hero_quest, location, realm
+
 register_blueprints(app)
 
 @app.route('/')
@@ -24,3 +20,5 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
