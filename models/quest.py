@@ -28,17 +28,22 @@ class Quests(db.Model):
         self.is_completed = is_completed
 
 
-class QuestSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Quests
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+def quest_schema():
+    class QuestSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Quests
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return QuestSchema()
 
-
-quest_schema = QuestSchema()
-quests_schema = QuestSchema(many=True)
-
-
+def quests_schema():
+    class QuestSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Quests
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return QuestSchema(many=True)
 
 

@@ -9,8 +9,6 @@ from models.race import Races
 from utils.reflection import populate_object
 
 
-
-
 def add_ability():
     data = request.get_json()
     new_ability = Abilities(
@@ -27,12 +25,12 @@ def add_ability():
         db.session.rollback()
         return jsonify({"message": "Unable to create ability"}), 400
 
-    return jsonify(ability_schema.dump(new_ability)), 201
+    return jsonify(ability_schema().dump(new_ability)), 201
 
 
 def get_all_abilities():
     abilities = db.session.query(Abilities).all()
-    return jsonify(abilities_schema.dump(abilities)), 200
+    return jsonify(abilities_schema().dump(abilities)), 200
 
 
 def get_ability_by_id(ability_id):
@@ -41,7 +39,7 @@ def get_ability_by_id(ability_id):
     if not ability:
         return jsonify({"message": "Ability not found"}), 404
 
-    return jsonify(ability_schema.dump(ability)), 200
+    return jsonify(ability_schema().dump(ability)), 200
 
 
 def update_ability(ability_id):
@@ -59,7 +57,7 @@ def update_ability(ability_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update ability"}), 400
 
-    return jsonify(ability_schema.dump(ability)), 200
+    return jsonify(ability_schema().dump(ability)), 200
 
 
 def delete_ability(ability_id):

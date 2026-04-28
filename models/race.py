@@ -22,17 +22,21 @@ class Races(db.Model):
         self.lifespan = lifespan
 
 
-class RaceSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Races
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+def race_schema():
+    class RaceSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Races
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return RaceSchema()
 
-
-race_schema = RaceSchema()
-races_schema = RaceSchema(many=True)
-
-
-
+def races_schema():
+    class RaceSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Races
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return RaceSchema(many=True)
 

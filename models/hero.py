@@ -29,15 +29,20 @@ class Heroes(db.Model):
         self.is_alive = is_alive
 
 
-class HeroSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Heroes
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+def hero_schema():
+    class HeroSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Heroes
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return HeroSchema()
 
-
-hero_schema = HeroSchema()
-heroes_schema = HeroSchema(many=True)
-
-
+def heroes_schema():
+    class HeroSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Heroes
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return HeroSchema(many=True)

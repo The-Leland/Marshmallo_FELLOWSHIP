@@ -4,12 +4,7 @@
 from flask import request, jsonify
 from db import db
 from models.hero import Heroes, hero_schema, heroes_schema
-from models.race import Races
-from models.ability import Abilities
-from models.hero_quest import HeroQuest
 from utils.reflection import populate_object
-
-
 
 
 def add_hero():
@@ -30,12 +25,12 @@ def add_hero():
         db.session.rollback()
         return jsonify({"message": "Unable to create hero"}), 400
 
-    return jsonify(hero_schema.dump(new_hero)), 201
+    return jsonify(hero_schema().dump(new_hero)), 201
 
 
 def get_all_heroes():
     heroes = db.session.query(Heroes).all()
-    return jsonify(heroes_schema.dump(heroes)), 200
+    return jsonify(heroes_schema().dump(heroes)), 200
 
 
 def get_hero_by_id(hero_id):
@@ -44,12 +39,12 @@ def get_hero_by_id(hero_id):
     if not hero:
         return jsonify({"message": "Hero not found"}), 404
 
-    return jsonify(hero_schema.dump(hero)), 200
+    return jsonify(hero_schema().dump(hero)), 200
 
 
 def get_alive_heroes():
     alive = db.session.query(Heroes).filter(Heroes.is_alive == True).all()
-    return jsonify(heroes_schema.dump(alive)), 200
+    return jsonify(heroes_schema().dump(alive)), 200
 
 
 def update_hero(hero_id):
@@ -67,7 +62,7 @@ def update_hero(hero_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update hero"}), 400
 
-    return jsonify(hero_schema.dump(hero)), 200
+    return jsonify(hero_schema().dump(hero)), 200
 
 
 def delete_hero(hero_id):
@@ -88,4 +83,3 @@ def delete_hero(hero_id):
         return jsonify({"message": "Unable to delete hero"}), 400
 
     return jsonify({"message": "Hero deleted successfully"}), 200
-

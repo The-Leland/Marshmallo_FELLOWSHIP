@@ -8,8 +8,6 @@ from models.location import Locations
 from utils.reflection import populate_object
 
 
-
-
 def add_realm():
     data = request.get_json()
     new_realm = Realms(
@@ -25,12 +23,12 @@ def add_realm():
         db.session.rollback()
         return jsonify({"message": "Unable to create realm"}), 400
 
-    return jsonify(realm_schema.dump(new_realm)), 201
+    return jsonify(realm_schema().dump(new_realm)), 201
 
 
 def get_all_realms():
     realms = db.session.query(Realms).all()
-    return jsonify(realms_schema.dump(realms)), 200
+    return jsonify(realms_schema().dump(realms)), 200
 
 
 def get_realm_by_id(realm_id):
@@ -39,7 +37,7 @@ def get_realm_by_id(realm_id):
     if not realm:
         return jsonify({"message": "Realm not found"}), 404
 
-    return jsonify(realm_schema.dump(realm)), 200
+    return jsonify(realm_schema().dump(realm)), 200
 
 
 def update_realm(realm_id):
@@ -57,7 +55,7 @@ def update_realm(realm_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update realm"}), 400
 
-    return jsonify(realm_schema.dump(realm)), 200
+    return jsonify(realm_schema().dump(realm)), 200
 
 
 def delete_realm(realm_id):
@@ -80,4 +78,3 @@ def delete_realm(realm_id):
         return jsonify({"message": "Unable to delete realm"}), 400
 
     return jsonify({"message": "Realm deleted successfully"}), 200
-

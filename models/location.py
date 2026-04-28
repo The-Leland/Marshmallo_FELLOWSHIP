@@ -24,17 +24,34 @@ class Locations(db.Model):
         self.danger_level = danger_level
 
 
-class LocationSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Locations
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+
+class Locations(db.Model):
+    __tablename__ = "locations"
+   
+
+    def __init__(self, location_name, realm_id, danger_level=None):
+        self.location_name = location_name
+        self.realm_id = realm_id
+        self.danger_level = danger_level
 
 
-location_schema = LocationSchema()
-locations_schema = LocationSchema(many=True)
+def location_schema():
+    class LocationSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Locations
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return LocationSchema()
 
+def locations_schema():
+    class LocationSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Locations
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return LocationSchema(many=True)
 
 
 

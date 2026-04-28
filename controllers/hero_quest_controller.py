@@ -4,20 +4,9 @@
 from flask import request, jsonify
 from db import db
 from models.hero_quest import HeroQuest, hero_quest_schema, hero_quests_schema
-from models.hero import Heroes, hero_schema, heroes_schema
-from models.quest import Quests
-from models.race import Races
-from models.ability import Abilities
+from models.hero import Heroes, heroes_schema
+from models.quest import Quests, quests_schema
 from utils.reflection import populate_object
-
-from app import (
-    hero_quest_schema,
-    hero_quests_schema,
-    heroes_schema,
-    quests_schema
-)
-
-
 
 
 def add_hero_quest():
@@ -36,12 +25,12 @@ def add_hero_quest():
         db.session.rollback()
         return jsonify({"message": "Unable to create hero_quest record"}), 400
 
-    return jsonify(hero_quest_schema.dump(new_record)), 201
+    return jsonify(hero_quest_schema().dump(new_record)), 201
 
 
 def get_all_hero_quests():
     records = db.session.query(HeroQuest).all()
-    return jsonify(hero_quests_schema.dump(records)), 200
+    return jsonify(hero_quests_schema().dump(records)), 200
 
 
 def get_hero_quest(hero_id, quest_id):
@@ -54,7 +43,7 @@ def get_hero_quest(hero_id, quest_id):
     if not record:
         return jsonify({"message": "HeroQuest record not found"}), 404
 
-    return jsonify(hero_quest_schema.dump(record)), 200
+    return jsonify(hero_quest_schema().dump(record)), 200
 
 
 def update_hero_quest(hero_id, quest_id):
@@ -76,7 +65,7 @@ def update_hero_quest(hero_id, quest_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update hero_quest record"}), 400
 
-    return jsonify(hero_quest_schema.dump(record)), 200
+    return jsonify(hero_quest_schema().dump(record)), 200
 
 
 def delete_hero_quest(hero_id, quest_id):
@@ -108,7 +97,7 @@ def get_quests_by_hero(hero_id):
         .all()
     )
 
-    return jsonify(quests_schema.dump(quests)), 200
+    return jsonify(quests_schema().dump(quests)), 200
 
 
 def get_heroes_by_quest(quest_id):
@@ -119,5 +108,5 @@ def get_heroes_by_quest(quest_id):
         .all()
     )
 
-    return jsonify(heroes_schema.dump(heroes)), 200
+    return jsonify(heroes_schema().dump(heroes)), 200
 

@@ -6,8 +6,6 @@ from models.race import Races, race_schema, races_schema
 from utils.reflection import populate_object
 
 
-
-
 def add_race():
     data = request.get_json()
     new_race = Races(
@@ -24,12 +22,12 @@ def add_race():
         db.session.rollback()
         return jsonify({"message": "Unable to create race"}), 400
 
-    return jsonify(race_schema.dump(new_race)), 201
+    return jsonify(race_schema().dump(new_race)), 201
 
 
 def get_all_races():
     races = db.session.query(Races).all()
-    return jsonify(races_schema.dump(races)), 200
+    return jsonify(races_schema().dump(races)), 200
 
 
 def get_race_by_id(race_id):
@@ -38,7 +36,7 @@ def get_race_by_id(race_id):
     if not race:
         return jsonify({"message": "Race not found"}), 404
 
-    return jsonify(race_schema.dump(race)), 200
+    return jsonify(race_schema().dump(race)), 200
 
 
 def update_race(race_id):
@@ -56,7 +54,7 @@ def update_race(race_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update race"}), 400
 
-    return jsonify(race_schema.dump(race)), 200
+    return jsonify(race_schema().dump(race)), 200
 
 
 def delete_race(race_id):
@@ -77,4 +75,3 @@ def delete_race(race_id):
         return jsonify({"message": "Unable to delete race"}), 400
 
     return jsonify({"message": "Race deleted successfully"}), 200
-

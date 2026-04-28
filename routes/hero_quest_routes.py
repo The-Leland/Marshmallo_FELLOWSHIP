@@ -15,27 +15,27 @@ from controllers.hero_quest_controller import (
 hero_quest_bp = Blueprint("hero_quest_bp", __name__)
 
 
-@hero_quest_bp.route("/hero-quest", methods=["POST"])
+@hero_quest_bp.route("/hero_quest", methods=["POST"])
 def route_add_hero_quest():
     return add_hero_quest()
 
 
-@hero_quest_bp.route("/hero-quests", methods=["GET"])
+@hero_quest_bp.route("/hero_quests", methods=["GET"])
 def route_get_all_hero_quests():
     return get_all_hero_quests()
 
 
-@hero_quest_bp.route("/hero-quest/<uuid:hero_id>/<uuid:quest_id>", methods=["GET"])
+@hero_quest_bp.route("/hero_quest/<uuid:hero_id>/<uuid:quest_id>", methods=["GET"])
 def route_get_hero_quest(hero_id, quest_id):
     return get_hero_quest(hero_id, quest_id)
 
 
-@hero_quest_bp.route("/hero-quest/<uuid:hero_id>/<uuid:quest_id>", methods=["PUT"])
+@hero_quest_bp.route("/hero_quest/<uuid:hero_id>/<uuid:quest_id>", methods=["PUT"])
 def route_update_hero_quest(hero_id, quest_id):
     return update_hero_quest(hero_id, quest_id)
 
 
-@hero_quest_bp.route("/hero-quest/<uuid:hero_id>/<uuid:quest_id>", methods=["DELETE"])
+@hero_quest_bp.route("/hero_quest/<uuid:hero_id>/<uuid:quest_id>", methods=["DELETE"])
 def route_delete_hero_quest(hero_id, quest_id):
     return delete_hero_quest(hero_id, quest_id)
 

@@ -23,19 +23,22 @@ class Abilities(db.Model):
         self.power_level = power_level
 
 
-class AbilitySchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Abilities
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+def ability_schema():
+    class AbilitySchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Abilities
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return AbilitySchema()
 
-
-
-ability_schema = AbilitySchema()
-abilities_schema = AbilitySchema(many=True)
-
-
-
+def abilities_schema():
+    class AbilitySchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Abilities
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return AbilitySchema(many=True)
 
 

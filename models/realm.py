@@ -1,5 +1,6 @@
 
 
+
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from db import db, ma
@@ -19,17 +20,32 @@ class Realms(db.Model):
         self.ruler = ruler
 
 
-class RealmSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Realms
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+
+class Realms(db.Model):
+    __tablename__ = "realms"
+   
+
+    def __init__(self, realm_name, ruler=None):
+        self.realm_name = realm_name
+        self.ruler = ruler
 
 
-realm_schema = RealmSchema()
-realms_schema = RealmSchema(many=True)
+def realm_schema():
+    class RealmSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Realms
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return RealmSchema()
 
-
+def realms_schema():
+    class RealmSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = Realms
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return RealmSchema(many=True)
 
 

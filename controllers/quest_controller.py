@@ -7,8 +7,6 @@ from models.quest import Quests, quest_schema, quests_schema
 from utils.reflection import populate_object
 
 
-
-
 def add_quest():
     data = request.get_json()
     new_quest = Quests(
@@ -27,17 +25,17 @@ def add_quest():
         db.session.rollback()
         return jsonify({"message": "Unable to create quest"}), 400
 
-    return jsonify(quest_schema.dump(new_quest)), 201
+    return jsonify(quest_schema().dump(new_quest)), 201
 
 
 def get_all_quests():
     quests = db.session.query(Quests).all()
-    return jsonify(quests_schema.dump(quests)), 200
+    return jsonify(quests_schema().dump(quests)), 200
 
 
 def get_quests_by_difficulty(level):
     quests = db.session.query(Quests).filter(Quests.difficulty == level).all()
-    return jsonify(quests_schema.dump(quests)), 200
+    return jsonify(quests_schema().dump(quests)), 200
 
 
 def get_quest_by_id(quest_id):
@@ -46,7 +44,7 @@ def get_quest_by_id(quest_id):
     if not quest:
         return jsonify({"message": "Quest not found"}), 404
 
-    return jsonify(quest_schema.dump(quest)), 200
+    return jsonify(quest_schema().dump(quest)), 200
 
 
 def update_quest(quest_id):
@@ -64,7 +62,7 @@ def update_quest(quest_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update quest"}), 400
 
-    return jsonify(quest_schema.dump(quest)), 200
+    return jsonify(quest_schema().dump(quest)), 200
 
 
 def complete_quest(quest_id):
@@ -81,7 +79,7 @@ def complete_quest(quest_id):
         db.session.rollback()
         return jsonify({"message": "Unable to complete quest"}), 400
 
-    return jsonify(quest_schema.dump(quest)), 200
+    return jsonify(quest_schema().dump(quest)), 200
 
 
 def delete_quest(quest_id):
@@ -99,5 +97,4 @@ def delete_quest(quest_id):
         return jsonify({"message": "Unable to delete quest"}), 400
 
     return jsonify({"message": "Quest deleted successfully"}), 200
-
 

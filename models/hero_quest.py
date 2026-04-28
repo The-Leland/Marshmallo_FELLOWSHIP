@@ -21,19 +21,22 @@ class HeroQuest(db.Model):
         self.date_joined = date_joined
 
 
-class HeroQuestSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = HeroQuest
-        load_instance = True
-        include_fk = True
-        include_relationships = False
+def hero_quest_schema():
+    class HeroQuestSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = HeroQuests
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return HeroQuestSchema()
 
-
-hero_quest_schema = HeroQuestSchema()
-hero_quests_schema = HeroQuestSchema(many=True)
-
-
-
-
+def hero_quests_schema():
+    class HeroQuestSchema(ma.SQLAlchemyAutoSchema):
+        class Meta:
+            model = HeroQuests
+            load_instance = True
+            include_fk = True
+            include_relationships = False
+    return HeroQuestSchema(many=True)
 
 

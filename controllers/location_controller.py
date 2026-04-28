@@ -2,11 +2,9 @@
 
 from flask import request, jsonify
 from db import db
-from models.location import Locations
-from models.quest import Quests
 from models.location import Locations, location_schema, locations_schema
+from models.quest import Quests
 from utils.reflection import populate_object
-
 
 
 def add_location():
@@ -25,12 +23,12 @@ def add_location():
         db.session.rollback()
         return jsonify({"message": "Unable to create location"}), 400
 
-    return jsonify(location_schema.dump(new_location)), 201
+    return jsonify(location_schema().dump(new_location)), 201
 
 
 def get_all_locations():
     locations = db.session.query(Locations).all()
-    return jsonify(locations_schema.dump(locations)), 200
+    return jsonify(locations_schema().dump(locations)), 200
 
 
 def get_location_by_id(location_id):
@@ -39,7 +37,7 @@ def get_location_by_id(location_id):
     if not location:
         return jsonify({"message": "Location not found"}), 404
 
-    return jsonify(location_schema.dump(location)), 200
+    return jsonify(location_schema().dump(location)), 200
 
 
 def update_location(location_id):
@@ -57,7 +55,7 @@ def update_location(location_id):
         db.session.rollback()
         return jsonify({"message": "Unable to update location"}), 400
 
-    return jsonify(location_schema.dump(location)), 200
+    return jsonify(location_schema().dump(location)), 200
 
 
 def delete_location(location_id):
