@@ -5,21 +5,27 @@ from sqlalchemy.dialects.postgresql import UUID
 from db import db, ma
 
 
-class HeroQuest(db.Model):
-    __tablename__ = "hero_quest"
+class HeroQuests(db.Model):
+    __tablename__ = "hero_quests"
 
     hero_id = db.Column(UUID(as_uuid=True), db.ForeignKey("heroes.hero_id"), primary_key=True)
     quest_id = db.Column(UUID(as_uuid=True), db.ForeignKey("quests.quest_id"), primary_key=True)
     date_joined = db.Column(db.DateTime())
 
-    hero = db.relationship("Heroes", back_populates="quests")
-    quest = db.relationship("Quests", back_populates="heroes")
+    hero = db.relationship("Heroes", back_populates="hero_quests")
+    quest = db.relationship("Quests", back_populates="hero_quests")
 
     def __init__(self, hero_id, quest_id, date_joined=None):
         self.hero_id = hero_id
         self.quest_id = quest_id
         self.date_joined = date_joined
 
+def new_hero_quest(data):
+    return HeroQuests(
+        hero_id=data.get("hero_id"),
+        quest_id=data.get("quest_id"),
+        date_joined=data.get("date_joined")
+    )
 
 def hero_quest_schema():
     class HeroQuestSchema(ma.SQLAlchemyAutoSchema):
@@ -38,5 +44,6 @@ def hero_quests_schema():
             include_fk = True
             include_relationships = False
     return HeroQuestSchema(many=True)
+
 
 

@@ -21,22 +21,37 @@ class Races(db.Model):
         self.homeland = homeland
         self.lifespan = lifespan
 
+def new_race(data):
+    return Races(
+        race_name=data.get("race_name"),
+        homeland=data.get("homeland"),
+        lifespan=data.get("lifespan")
+    )
 
 def race_schema():
+    from .hero import hero_schema
+
     class RaceSchema(ma.SQLAlchemyAutoSchema):
         class Meta:
             model = Races
             load_instance = True
             include_fk = True
             include_relationships = False
+
+        heroes = ma.Nested(hero_schema().__class__, many=True)
+
     return RaceSchema()
 
 def races_schema():
+    from .hero import hero_schema
+
     class RaceSchema(ma.SQLAlchemyAutoSchema):
         class Meta:
             model = Races
             load_instance = True
             include_fk = True
             include_relationships = False
-    return RaceSchema(many=True)
 
+        heroes = ma.Nested(hero_schema().__class__, many=True)
+
+    return RaceSchema(many=True)

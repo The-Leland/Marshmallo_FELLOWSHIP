@@ -12,39 +12,11 @@
         {
           "name": "New Request",
           "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"hero_name\": \"Legolas\",\r\n  \"age\": 2931,\r\n  \"health_points\": 150,\r\n  \"is_alive\": true,\r\n  \"race_id\": \"8bfedbdd-d395-46ca-80c0-5e39490748c6\"\r\n}\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:5000/hero",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "5000",
-              "path": [
-                "hero"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"health_points\": 175\r\n}",
+              "raw": "{\r\n  \"health_points\": 190,\r\n  \"is_alive\": true\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -52,7 +24,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/hero/efcf3a3c-9cd6-4869-a4ef-d0c76227211d",
+              "raw": "http://localhost:5000/hero/c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -60,7 +32,7 @@
               "port": "5000",
               "path": [
                 "hero",
-                "efcf3a3c-9cd6-4869-a4ef-d0c76227211d"
+                "c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3"
               ]
             }
           },
@@ -99,34 +71,29 @@
         {
           "name": "New Request",
           "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"hero_name\": \"Frodo Baggins\",\r\n  \"age\": 50,\r\n  \"health_points\": 120,\r\n  \"is_alive\": true,\r\n  \"race_id\": \"7dc83a44-3ee7-4bcd-b5b1-eaf485f84467\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "http://localhost:5000/hero/d5677ad5-fe9b-4648-aed8-b36d18949b90",
+              "raw": "http://127.0.0.1:5000/hero",
               "protocol": "http",
               "host": [
-                "localhost"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
               "port": "5000",
               "path": [
-                "hero",
-                "d5677ad5-fe9b-4648-aed8-b36d18949b90"
+                "hero"
               ]
             }
           },
@@ -134,19 +101,30 @@
         },
         {
           "name": "New Request",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
-            "method": "PUT",
+            "method": "GET",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "http://localhost:5000/hero/d5677ad5-fe9b-4648-aed8-b36d18949b90",
+              "raw": "http://localhost:5000/heroes",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "5000",
               "path": [
-                "hero",
-                "d5677ad5-fe9b-4648-aed8-b36d18949b90"
+                "heroes"
               ]
             }
           },
@@ -154,19 +132,18 @@
         },
         {
           "name": "New Request",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "DELETE",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
             "url": {
-              "raw": "http://localhost:5000/hero/delete/d5677ad5-fe9b-4648-aed8-b36d18949b90",
+              "raw": "http://localhost:5000/hero/c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -174,26 +151,9 @@
               "port": "5000",
               "path": [
                 "hero",
-                "delete",
-                "d5677ad5-fe9b-4648-aed8-b36d18949b90"
+                "c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3"
               ]
             }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": []
           },
           "response": []
         }
@@ -209,7 +169,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"race_name\": \"Human\",\r\n  \"homeland\": \"Gondor\",\r\n  \"lifespan\": 120\r\n}",
+              "raw": "{\r\n  \"race_name\": \"Hobbit\",\r\n  \"homeland\": \"The Shire\",\r\n  \"lifespan\": 100\r\n}\r\n\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -217,10 +177,13 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/race",
+              "raw": "http://127.0.0.1:5000/race",
               "protocol": "http",
               "host": [
-                "localhost"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
               "port": "5000",
               "path": [
@@ -355,25 +318,29 @@
         {
           "name": "New Request",
           "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"realm_name\": \"Gondor\",\r\n  \"ruler\": \"Aragorn\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "http://localhost:5000/realms",
+              "raw": "http://127.0.0.1:5000/realm",
               "protocol": "http",
               "host": [
-                "localhost"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
               "port": "5000",
               "path": [
-                "realms"
+                "realm"
               ]
             }
           },
@@ -381,9 +348,35 @@
         },
         {
           "name": "New Request",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/realms",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "realms"
+              ]
+            }
           },
           "response": []
         },
@@ -452,26 +445,34 @@
       "item": [
         {
           "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": []
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
           },
-          "response": []
-        },
-        {
-          "name": "New Request",
           "request": {
             "method": "GET",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "http://localhost:5000/locations",
+              "raw": "http://127.0.0.1:5000/location/0e5045f4-5bab-4311-9360-9910cfc68978",
               "protocol": "http",
               "host": [
-                "localhost"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
               "port": "5000",
               "path": [
-                "locations"
+                "location",
+                "0e5045f4-5bab-4311-9360-9910cfc68978"
               ]
             }
           },
@@ -512,7 +513,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/location/5613d65b-93b8-4c11-8bbe-f4a9feeae381",
+              "raw": "http://localhost:5000/location/0e5045f4-5bab-4311-9360-9910cfc68978",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -520,7 +521,46 @@
               "port": "5000",
               "path": [
                 "location",
-                "5613d65b-93b8-4c11-8bbe-f4a9feeae381"
+                "0e5045f4-5bab-4311-9360-9910cfc68978"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"location_name\": \"Minas Tirith\",\r\n  \"realm_id\": \"d007ad8c-ec3d-4138-9dec-f5b7f20c1f36\",\r\n  \"danger_level\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/location",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "location"
               ]
             }
           },
@@ -606,12 +646,65 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"quest_name\": \"Defend the White City\",\r\n  \"difficulty\": 4,\r\n  \"location_id\": \"0e5045f4-5bab-4311-9360-9910cfc68978\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/quest",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "quest"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
     {
       "name": "HeroQuest",
       "item": [
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/hero_quests",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "hero_quests"
+              ]
+            }
+          },
+          "response": []
+        },
         {
           "name": "New Request",
           "request": {
@@ -623,38 +716,22 @@
         {
           "name": "New Request",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/quests",
+              "raw": "http://127.0.0.1:5000/hero_quest/c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3/7f0fb800-3932-4552-84a8-82d46b49de82",
               "protocol": "http",
               "host": [
-                "localhost"
+                "127",
+                "0",
+                "0",
+                "1"
               ],
               "port": "5000",
               "path": [
-                "quests"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:5000/hero/c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3/quests",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "5000",
-              "path": [
-                "hero",
+                "hero_quest",
                 "c1dcaaf1-f46c-4575-8d9f-d4c58cc83bb3",
-                "quests"
+                "7f0fb800-3932-4552-84a8-82d46b49de82"
               ]
             }
           },
